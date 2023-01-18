@@ -13,7 +13,6 @@ import WebKit
 
 class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
 
-    @IBOutlet weak var webView: WKWebView!
     @IBOutlet var sceneView: ARSCNView!
     @IBOutlet weak var eyePositionIndicatorView: UIView!
     @IBOutlet weak var eyePositionIndicatorCenterView: UIView!
@@ -21,6 +20,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     @IBOutlet weak var lookAtPositionXLabel: UILabel!
     @IBOutlet weak var lookAtPositionYLabel: UILabel!
     @IBOutlet weak var distanceLabel: UILabel!
+    @IBOutlet var buttonPink: UIButton!
+    @IBOutlet var buttonRed: UIButton!
+    @IBOutlet var buttonBlue: UIButton!
+    @IBOutlet var buttonYellow: UIButton!
+    
     
     var faceNode: SCNNode = SCNNode()
     
@@ -53,6 +57,22 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     var lookAtTargetEyeLNode: SCNNode = SCNNode()
     var lookAtTargetEyeRNode: SCNNode = SCNNode()
     
+    var positionPinkButton: CGPoint = CGPoint()
+    var heightPinkButton: CGFloat = CGFloat()
+    var widthPinkButton: CGFloat = CGFloat()
+    
+    var positionRedButton: CGPoint = CGPoint()
+    var heightRedButton: CGFloat = CGFloat()
+    var widthRedButton: CGFloat = CGFloat()
+    
+    var positionBlueButton: CGPoint = CGPoint()
+    var heightBlueButton: CGFloat = CGFloat()
+    var widthBlueButton: CGFloat = CGFloat()
+    
+    var positionYellowButton: CGPoint = CGPoint()
+    var heightYellowButton: CGFloat = CGFloat()
+    var widthYellowButton: CGFloat = CGFloat()
+   
     // actual physical size of iPhoneX screen
     let phoneScreenSize = CGSize(width: 0.0623908297, height: 0.135096943231532)
     
@@ -81,7 +101,35 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        webView.load(URLRequest(url: URL(string: "https://www.gtu.edu.tr")!))
+        //ButtonPink
+        buttonPink.setTitle("PINK", for: .normal)
+        buttonPink.backgroundColor = .systemGray
+        positionPinkButton = buttonPink.frame.origin
+        heightPinkButton = buttonPink.frame.size.height
+        widthPinkButton = buttonPink.frame.size.width
+        buttonPink.addTarget(self, action: #selector(didTapButtonPink), for: .touchUpInside)
+        
+        buttonRed.setTitle("RED", for: .normal)
+        buttonRed.backgroundColor = .systemGray
+        positionRedButton = buttonRed.frame.origin
+        heightRedButton = buttonRed.frame.size.height
+        widthRedButton = buttonRed.frame.size.width
+        buttonRed.addTarget(self, action: #selector(didTapButtonRed), for: .touchUpInside)
+        
+        buttonBlue.setTitle("BLUE", for: .normal)
+        buttonBlue.backgroundColor = .systemGray
+        positionBlueButton = buttonBlue.frame.origin
+        heightBlueButton = buttonBlue.frame.size.height
+        widthBlueButton = buttonBlue.frame.size.width
+        buttonBlue.addTarget(self, action: #selector(didTapButtonBlue), for: .touchUpInside)
+        
+        buttonYellow.setTitle("YELLOW", for: .normal)
+        buttonYellow.backgroundColor = .systemGray
+        positionYellowButton = buttonYellow.frame.origin
+        heightYellowButton = buttonYellow.frame.size.height
+        widthYellowButton = buttonYellow.frame.size.width
+        buttonYellow.addTarget(self, action: #selector(didTapButtonYellow), for: .touchUpInside)
+        
         
         // Setup Design Elements
         eyePositionIndicatorView.layer.cornerRadius = eyePositionIndicatorView.bounds.width / 2
@@ -90,8 +138,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         
         blurBarView.layer.cornerRadius = 36
         blurBarView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
-        webView.layer.cornerRadius = 16
-        webView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         
         // Set the view's delegate
         sceneView.delegate = self
@@ -193,6 +239,12 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
             
             self.lookAtPositionYLabel.text = "\(Int(round(smoothEyeLookAtPositionY + self.phoneScreenPointSize.height / 2)))"
             
+            
+            self.didTapButtonWherePink(self.lookAtPositionXLabel, self.lookAtPositionYLabel)
+            self.didTapButtonWhereRed(self.lookAtPositionXLabel, self.lookAtPositionYLabel)
+            self.didTapButtonWhereBlue(self.lookAtPositionXLabel, self.lookAtPositionYLabel)
+            self.didTapButtonWhereYellow(self.lookAtPositionXLabel, self.lookAtPositionYLabel)
+            
             // Calculate distance of the eyes to the camera
             let distanceL = self.eyeLNode.worldPosition - SCNVector3Zero
             let distanceR = self.eyeRNode.worldPosition - SCNVector3Zero
@@ -215,5 +267,61 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         faceNode.transform = node.transform
         guard let faceAnchor = anchor as? ARFaceAnchor else { return }
         update(withFaceAnchor: faceAnchor)
+    }
+    
+    @objc func didTapButtonPink(){
+        view.backgroundColor = .systemPink
+    }
+    
+    @objc func didTapButtonRed(){
+        view.backgroundColor = .systemRed
+    }
+    
+    @objc func didTapButtonBlue(){
+        view.backgroundColor = .systemBlue
+    }
+    
+    @objc func didTapButtonYellow(){
+        view.backgroundColor = .systemYellow
+    }
+    
+    func didTapButtonWherePink(_ smoothEyeLookAtPositionX: UILabel,_ smoothEyeLookAtPositionY: UILabel){
+        let x = CGFloat(Double(smoothEyeLookAtPositionX.text!) ?? 1)
+        let y = CGFloat(Double(smoothEyeLookAtPositionY.text!) ?? 1)
+        if(x <= positionPinkButton.x+widthPinkButton && x >= positionPinkButton.x){
+            if(y <= positionPinkButton.y+heightPinkButton && y >= positionPinkButton.y){
+                buttonPink.sendActions(for: .touchUpInside)
+            }
+        }
+    }
+    
+    func didTapButtonWhereRed(_ smoothEyeLookAtPositionX: UILabel,_ smoothEyeLookAtPositionY: UILabel){
+        let x = CGFloat(Double(smoothEyeLookAtPositionX.text!) ?? 1)
+        let y = CGFloat(Double(smoothEyeLookAtPositionY.text!) ?? 1)
+        if(x <= positionRedButton.x+widthRedButton && x >= positionRedButton.x){
+            if(y <= positionRedButton.y+heightRedButton && y >= positionRedButton.y){
+                buttonRed.sendActions(for: .touchUpInside)
+            }
+        }
+    }
+    
+    func didTapButtonWhereBlue(_ smoothEyeLookAtPositionX: UILabel,_ smoothEyeLookAtPositionY: UILabel){
+        let x = CGFloat(Double(smoothEyeLookAtPositionX.text!) ?? 1)
+        let y = CGFloat(Double(smoothEyeLookAtPositionY.text!) ?? 1)
+        if(x <= positionBlueButton.x+widthBlueButton && x >= positionBlueButton.x){
+            if(y <= positionBlueButton.y+heightBlueButton && y >= positionBlueButton.y){
+                buttonBlue.sendActions(for: .touchUpInside)
+            }
+        }
+    }
+    
+    func didTapButtonWhereYellow(_ smoothEyeLookAtPositionX: UILabel,_ smoothEyeLookAtPositionY: UILabel){
+        let x = CGFloat(Double(smoothEyeLookAtPositionX.text!) ?? 1)
+        let y = CGFloat(Double(smoothEyeLookAtPositionY.text!) ?? 1)
+        if(x <= positionYellowButton.x+widthYellowButton && x >= positionYellowButton.x){
+            if(y <= positionYellowButton.y+heightYellowButton && y >= positionYellowButton.y){
+                buttonYellow.sendActions(for: .touchUpInside)
+            }
+        }
     }
 }
