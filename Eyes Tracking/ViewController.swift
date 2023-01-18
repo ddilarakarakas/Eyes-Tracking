@@ -102,14 +102,14 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
         super.viewDidLoad()
         
         //ButtonPink
-        buttonPink.setTitle("PINK", for: .normal)
+        buttonPink.setTitle("ORANGE", for: .normal)
         buttonPink.backgroundColor = .systemGray
         positionPinkButton = buttonPink.frame.origin
         heightPinkButton = buttonPink.frame.size.height
         widthPinkButton = buttonPink.frame.size.width
         buttonPink.addTarget(self, action: #selector(didTapButtonPink), for: .touchUpInside)
         
-        buttonRed.setTitle("RED", for: .normal)
+        buttonRed.setTitle("GREEN", for: .normal)
         buttonRed.backgroundColor = .systemGray
         positionRedButton = buttonRed.frame.origin
         heightRedButton = buttonRed.frame.size.height
@@ -270,11 +270,11 @@ class ViewController: UIViewController, ARSCNViewDelegate, ARSessionDelegate {
     }
     
     @objc func didTapButtonPink(){
-        view.backgroundColor = .systemPink
+        view.backgroundColor = .systemOrange
     }
     
     @objc func didTapButtonRed(){
-        view.backgroundColor = .systemRed
+        view.backgroundColor = .systemGreen
     }
     
     @objc func didTapButtonBlue(){
