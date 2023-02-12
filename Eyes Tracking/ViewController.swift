@@ -1,10 +1,3 @@
-//
-//  ViewController.swift
-//  Eyes Tracking
-//
-//  Created by Virakri Jinangkul on 6/6/18.
-//  Copyright © 2018 virakri. All rights reserved.
-//
 
 import UIKit
 import SceneKit
